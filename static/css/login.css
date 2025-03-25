@@ -1,0 +1,124 @@
+*{
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    box-sizing: border-box;
+}
+form {
+    display: contents; /* Makes form act as if it doesn’t exist */
+   
+}
+.flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 10px;
+   
+}
+.flash-message.error {
+    background-color: #ffebee; /* Light red background */
+    color: #c62828; /* Dark red text */
+    border: 1px solid #c62828;
+}
+
+.cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right,violet,blue);
+    width: 100%;
+    min-height: 100vh;
+   
+}
+.insidecont{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 25px;
+position: relative;
+width: 25%;
+height: 490px;
+background: white;
+border-radius: 20px;
+
+}
+.logtext{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right,black, blue); 
+    -webkit-background-clip: text; 
+    color: transparent; 
+}
+.datacontainer{
+    display: flex;
+    align-items:flex-start;
+    justify-content:flex-start;
+    flex-direction: column;
+    gap: 15px;
+    position:absolute;
+    top: 25%;
+    left: 5%;
+    width: 90%;
+    padding: 10px;
+    margin-top:-50px
+
+}
+.datacontainer label{
+    color: black;
+    font-size: 15px;
+}
+.datacontainer input{
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    border: none;
+    border-bottom: 2px solid #d3d3d3;
+    outline:none;
+    transition: 0.3s ease-in-out;
+    color: #d3d3d3;
+    
+
+}
+.datacontainer input:focus {
+    border-bottom: 2px solid blue; /* Changes color when focused */
+}
+.btncontainer{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+.datacontainer button{
+    background: linear-gradient(to right,#CF9FFF	,#add8e6);
+    border: none;
+    border-radius: 20px;
+    width: 80%;
+    height: 30px;
+    color: white;
+    padding: 10px;
+
+}
+.datacontainer button:hover{
+background: linear-gradient(to right,#c590fa,#a2e4fa);
+}
+
+p{
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    color: #555;
+
+}
+a{
+    text-decoration: none;
+    color: blueviolet;
+}
+a:hover{
+    text-decoration: underline;
+    color: blue;
+}

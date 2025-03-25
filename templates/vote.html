@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Cast Your Vote{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card vote-card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <div class="election-info mb-4 p-3 bg-light rounded">
+                        <h4 class="mb-2">Election: <span class="fw-bold">{{ election_title }}</span></h4>
+                        <p class="mb-0">Hosted by: {{ host_username }}</p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('vote', election_id=election_id) }}" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <h5 class="mb-3">Select your vote:</h5>
+                            
+                            <div class="vote-options">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="vote" 
+                                           id="optionYes" value="Yes" required>
+                                    <label class="form-check-label fw-bold fs-5" for="optionYes">
+                                        <i class="fas fa-check-circle text-success me-2"></i>Yes
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="vote" 
+                                           id="optionNo" value="No" required>
+                                    <label class="form-check-label fw-bold fs-5" for="optionNo">
+                                        <i class="fas fa-times-circle text-danger me-2"></i>No
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vote" 
+                                           id="optionAbstain" value="Abstain" required>
+                                    <label class="form-check-label fw-bold fs-5" for="optionAbstain">
+                                        <i class="fas fa-minus-circle text-secondary me-2"></i>Abstain
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="invalid-feedback mt-2">
+                                Please select a voting option.
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Vote
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}

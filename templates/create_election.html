@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} - Create Election{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Create New Election</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('create_election') }}">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Election Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Election Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <small class="text-muted">Participants will need this password to join</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create Election</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

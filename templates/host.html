@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} - Host Elections{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Your Elections</h4>
+            </div>
+            <div class="card-body">
+                <a href="{{ url_for('create_election') }}" class="btn btn-primary mb-3">Create New Election</a>
+                
+                {% if elections %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Password</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for election in elections %}
+                                    <tr>
+                                        <td>{{ election.title }}</td>
+                                        <td>{{ election.password }}</td>
+                                        <td>
+                                            <a href="{{ url_for('results', election_id=election.id) }}" class="btn btn-sm btn-info">View Results</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>You haven't created any elections yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
