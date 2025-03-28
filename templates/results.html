@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Election Results</title>
+</head>
+<body>
+    <h1>Election Results for {{ election_title }}</h1>
+    <h2>Host: {{ host_name }}</h2>
+    <h3>Total Votes: {{ total_votes }}</h3>
+    <h3>Results Published: {{ results_published }}</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th>Votes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidate in candidates %}
+            <tr>
+                <td>{{ candidate.candidate_name }}</td>
+                <td>{{ candidate.votes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,45 +1,39 @@
-{% extends "base.html" %}
-
-{% block title %} - Host Elections{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="mb-0">Your Elections</h4>
-            </div>
-            <div class="card-body">
-                <a href="{{ url_for('create_election') }}" class="btn btn-primary mb-3">Create New Election</a>
-                
-                {% if elections %}
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Password</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for election in elections %}
-                                    <tr>
-                                        <td>{{ election.title }}</td>
-                                        <td>{{ election.password }}</td>
-                                        <td>
-                                            <a href="{{ url_for('results', election_id=election.id) }}" class="btn btn-sm btn-info">View Results</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Your Hosted Elections</h2>
+
+    {% if elections %}
+        <div class="list-group">
+            {% for election in elections %}
+            <div class="list-group-item election-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="election-title">{{ election.title }}</h5>
+                        <small class="text-muted">Password: {{ election.password }}</small>
                     </div>
-                {% else %}
-                    <p>You haven't created any elections yet.</p>
-                {% endif %}
+                    <div class="btn-group">
+                        <a href="{{ url_for('results', election_id=election.id) }}" class="btn btn-sm btn-custom-blue">View</a>
+                        {% if not election.results_published %}
+                            <a href="{{ url_for('publish_results', election_id=election.id) }}" class="btn btn-sm btn-custom-green">Publish Results</a>
+                        {% else %}
+                            <span class="btn btn-sm btn-secondary disabled">Published</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
+    {% else %}
+        <div class="alert alert-info text-center">You haven't created any elections yet.</div>
+    {% endif %}
+
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('create_election') }}" class="btn btn-custom">Create New Election</a>
     </div>
 </div>
+
+<!-- Link External CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/host.css') }}">
 {% endblock %}

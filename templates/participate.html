@@ -1,75 +1,26 @@
-{% extends "base.html" %}
-
-{% block title %}Join Election{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card election-card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">
-                        <i class="fas fa-door-open me-2"></i>Join Election
-                    </h3>
-                </div>
-                <div class="card-body">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }} alert-dismissible fade show">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-
-                    <form method="POST" action="{{ url_for('participate') }}" class="needs-validation" novalidate>
-                        <div class="mb-4">
-                            <label for="passwordInput" class="form-label fw-bold">
-                                <i class="fas fa-key me-2"></i>Election Password
-                            </label>
-                            <input type="password" class="form-control form-control-lg" 
-                                   id="passwordInput" name="password" required
-                                   placeholder="Enter the election password">
-                            <div class="invalid-feedback">
-                                Please provide a valid election password.
-                            </div>
-                            <small class="form-text text-muted mt-1">
-                                Get this password from the election host
-                            </small>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-sign-in-alt me-2"></i>Join Election
-                            </button>
-                        </div>
-                    </form>
-                </div>
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card participation-card">
+            <div class="card-header text-center">Participate in Election</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('participate') }}">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Election Password</label>
+                        <input type="password" class="form-control input-field" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn primary-btn">Join Election</button>
+                        <a href="{{ url_for('home') }}" class="btn secondary-btn">Back</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
-<script>
-// Form validation
-(function() {
-    'use strict';
-    window.addEventListener('load', function() {
-        var forms = document.getElementsByClassName('needs-validation');
-        Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-})();
-</script>
+<!-- Link External CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/participate.css') }}">
 {% endblock %}

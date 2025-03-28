@@ -1,29 +1,58 @@
-{% extends "base.html" %}
-
-{% block title %} - Create Election{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="mb-0">Create New Election</h4>
-            </div>
+        <div class="card election-card">
+            <div class="card-header text-center">Create New Election</div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('create_election') }}">
+                    
                     <div class="mb-3">
                         <label for="title" class="form-label">Election Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <input type="text" class="form-control input-field" id="title" name="title" required>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="password" class="form-label">Election Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                        <small class="text-muted">Participants will need this password to join</small>
+                        <input type="password" class="form-control input-field" id="password" name="password" required>
+                        <div class="form-text">Participants will need this password to join.</div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Create Election</button>
+                    
+                    <h4 class="mt-4">Candidates</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="candidate1" class="form-label">Candidate 1</label>
+                            <input type="text" class="form-control input-field" id="candidate1" name="candidate1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="candidate2" class="form-label">Candidate 2</label>
+                            <input type="text" class="form-control input-field" id="candidate2" name="candidate2" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="candidate3" class="form-label">Candidate 3 (Optional)</label>
+                            <input type="text" class="form-control input-field" id="candidate3" name="candidate3">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="candidate4" class="form-label">Candidate 4 (Optional)</label>
+                            <input type="text" class="form-control input-field" id="candidate4" name="candidate4">
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="btn primary-btn">Create Election</button>
+                        <a href="{{ url_for('host') }}" class="btn secondary-btn">Cancel</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Link External CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create_election.css') }}">
 {% endblock %}

@@ -1,0 +1,48 @@
+/* General Styling */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Custom Button Styles */
+.btn-custom {
+    background: #6a11cb;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: background 0.3s;
+}
+.btn-custom:hover {
+    background: #2575fc;
+    color: white;
+}
+
+.btn-custom-green {
+    background: #28a745;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: background 0.3s;
+}
+.btn-custom-green:hover {
+    background: #218838;
+}
+
+.btn-custom-blue {
+    background: #17a2b8;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: background 0.3s;
+}
+.btn-custom-blue:hover {
+    background: #138496;
+}
+
+/* Election List Styling */
+.election-item {
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}

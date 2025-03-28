@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+        <div class="card results-card">
+            <div class="card-header text-center">Results Pending</div>
+            <div class="card-body text-center">
+                <h4 class="card-title">Results Not Yet Available</h4>
+                <p class="card-text">
+                    The results for "<strong>{{ election_title }}</strong>" are not yet published.
+                    <br>
+                    Please check back later after the host has published the results.
+                </p>
+                <a href="{{ url_for('home') }}" class="btn primary-btn">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link External CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/results_pending.css') }}">
+{% endblock %}

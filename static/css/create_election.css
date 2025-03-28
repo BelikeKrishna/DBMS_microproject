@@ -1,0 +1,66 @@
+/* General Styling */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Centering Content */
+.d-flex {
+    display: flex;
+}
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* Buttons */
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+}
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.secondary-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+}
+.secondary-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Election Card */
+.election-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.election-card .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Input Fields */
+.input-field {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 1rem;
+}
+.input-field:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
