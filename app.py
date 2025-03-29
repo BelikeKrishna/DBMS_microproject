@@ -278,7 +278,7 @@ def results(election_id):
     cur = mysql.connection.cursor()
     
     try:
-        # Get election info including results_published status
+        # Get basic election info
         cur.execute("""
             SELECT e.title, e.results_published, u.username as host_name
             FROM elections e
@@ -290,42 +290,44 @@ def results(election_id):
         if not election:
             flash('Election not found', 'error')
             return redirect(url_for('home'))
+            
+        if not election['results_published']:
+            flash('Results are not yet published', 'info')
+            return redirect(url_for('results_pending', election_id=election_id))
         
-        # Ensure results_published is not None
-        results_published = election['results_published'] if election['results_published'] is not None else False
-        
-        # Get candidates with vote counts
+        # Get official results from results table
         cur.execute("""
-            SELECT id, candidate_name, votes
-            FROM candidate_details
+            SELECT winner, winner_votes, total_votes, published_at
+            FROM results
             WHERE election_id = %s
-            ORDER BY votes DESC
+            ORDER BY published_at DESC
+            LIMIT 1
         """, (election_id,))
-        candidates = cur.fetchall()
-
-        # Ensure candidates list is not empty before summing votes
-        total_votes = sum(candidate['votes'] for candidate in candidates) if candidates else 0
+        result = cur.fetchone()
         
-        # Debugging prints
-        print("Election:", election)
-        print("Candidates:", candidates)
-        print("Total Votes:", total_votes)
+        if not result:
+            flash('No results available for this election', 'error')
+            return redirect(url_for('home'))
+        
+        # Calculate percentage
+        percentage = round((result['winner_votes'] / result['total_votes']) * 100, 2) if result['total_votes'] > 0 else 0
         
         return render_template('results.html',
                            election_title=election['title'],
                            host_name=election['host_name'],
-                           candidates=candidates,
-                           total_votes=total_votes,
-                           results_published=results_published)
+                           winner=result['winner'],
+                           winner_votes=result['winner_votes'],
+                           total_votes=result['total_votes'],
+                           percentage=percentage,
+                           published_at=result['published_at'])
     
     except Exception as e:
         flash(f'Error retrieving results: {str(e)}', 'error')
         return redirect(url_for('home'))
-    
     finally:
         cur.close()
 
-@app.route('/publish_results/<int:election_id>')#host function
+@app.route('/publish_results/<int:election_id>')
 def publish_results(election_id):
     if not session.get('logged_in'):
         return redirect(url_for('loginpage'))
@@ -333,6 +335,7 @@ def publish_results(election_id):
     cur = mysql.connection.cursor()
     
     try:
+        # Verify user is the election host
         cur.execute("SELECT host_id FROM elections WHERE id = %s", (election_id,))
         election = cur.fetchone()
         
@@ -340,11 +343,47 @@ def publish_results(election_id):
             flash('Unauthorized action', 'error')
             return redirect(url_for('host'))
         
+        # Get the winning candidate
+        cur.execute("""
+            SELECT cd.id, cd.candidate_name, cd.votes
+            FROM candidate_details cd
+            WHERE cd.election_id = %s
+            ORDER BY cd.votes DESC
+            LIMIT 1
+        """, (election_id,))
+        winner = cur.fetchone()
+        
+        if not winner:
+            flash('No candidates found for this election', 'error')
+            return redirect(url_for('host'))
+        
+        # Calculate total votes
+        cur.execute("""
+            SELECT SUM(votes) as total_votes
+            FROM candidate_details
+            WHERE election_id = %s
+        """, (election_id,))
+        total_votes = cur.fetchone()['total_votes'] or 0
+        
+        # Store results in the results table
+        cur.execute("""
+            INSERT INTO results 
+            (election_id, winner, winner_votes, total_votes)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            election_id,
+            winner['candidate_name'],
+            winner['votes'],
+            total_votes
+        ))
+        
+        # Mark election as published
         cur.execute("""
             UPDATE elections 
             SET results_published = TRUE 
             WHERE id = %s
         """, (election_id,))
+        
         mysql.connection.commit()
         flash('Results published successfully!', 'success')
     except Exception as e:

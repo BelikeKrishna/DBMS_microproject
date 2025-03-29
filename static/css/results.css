@@ -1,0 +1,88 @@
+/* General Styling */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Centering Content */
+.d-flex {
+    display: flex;
+}
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* Buttons */
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    transition: 0.3s ease-in-out;
+}
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Results Card */
+.results-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+.results-card .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 15px;
+}
+
+/* Election Title */
+.election-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Winner Section */
+.winner-card {
+    background: #e3f2fd;
+    border-left: 5px solid #007bff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+}
+.winner-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+.winner-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+}
+.vote-count {
+    font-size: 1rem;
+    color: #555;
+}
+.votes {
+    font-weight: bold;
+}
+.percentage {
+    color: #007bff;
+}
+
+/* Total Votes */
+.total-votes {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #555;
+}
