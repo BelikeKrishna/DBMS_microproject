@@ -1,45 +1,38 @@
 /* General Styling */
 body {
     background: linear-gradient(to right, #4A90E2, #9013FE);
-}
+ }
+ 
+ /* Transparent and blurry card styles */
+ .card {
+     background: rgba(255, 255, 255, 0.1); /* Transparent white */
+     backdrop-filter: blur(10px); /* Blurry effect */
+     border-radius: 12px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+     color: white; /* Ensure text is visible */
+     
+ }
+ 
 
-/* Custom Button Styles */
-.btn-custom {
-    background: #6a11cb;
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
-    transition: background 0.3s;
-}
-.btn-custom:hover {
-    background: #2575fc;
-    color: white;
-}
-
-.btn-custom-green {
-    background: #28a745;
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
-    transition: background 0.3s;
-}
-.btn-custom-green:hover {
-    background: #218838;
-}
-
-.btn-custom-blue {
-    background: #17a2b8;
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
-    transition: background 0.3s;
-}
-.btn-custom-blue:hover {
-    background: #138496;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
+ /* Centered button styles */
+ .btn-custom,
+ .btn-custom-green,
+ .btn-custom-blue {
+     background: rgba(255, 255, 255, 0.2);
+     border: 1px solid white;
+     color: white;
+     border-radius: 8px;
+     padding: 10px 16px;
+     transition: background 0.3s, transform 0.3s;
+ }
+ 
+ .btn-custom:hover,
+ .btn-custom-green:hover,
+ .btn-custom-blue:hover {
+     background: rgba(255, 255, 255, 0.4);
+     transform: scale(1.05);
+ }
+ h2 {
+    color: white !important;
 }
