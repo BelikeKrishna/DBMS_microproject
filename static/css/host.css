@@ -1,6 +1,20 @@
 /* General Styling */
 body {
-    background-color: #f8f9fa;
+    background: linear-gradient(to right, #4A90E2, #9013FE);
+
+}
+.btn-secondary.disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.btn-group {
+    display: flex;
+    align-items: center; /* Ensures vertical centering */
+    gap: 5px; /* Adds spacing between buttons */
 }
 
 /* Custom Button Styles */

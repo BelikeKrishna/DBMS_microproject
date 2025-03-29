@@ -56,7 +56,7 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        mail = request.form.get('mail-id')
+        mail = request.form.get('email')
         cur = mysql.connection.cursor()
 
         try:
@@ -122,12 +122,12 @@ def create_election():
             # Check if password is already used in any active election
             cur.execute("""
                 SELECT id FROM elections 
-                WHERE password = %s AND results_published = 0
+                WHERE password = %s 
             """, (password,))
             existing_election = cur.fetchone()
             
             if existing_election:
-                flash('This password is already in use by an active election', 'error')
+                flash('This password is unavailable', 'error')
                 return render_template('create_election.html')
             
             # Get candidate data
@@ -176,12 +176,16 @@ def participate():
         
         try:
             cur.execute("""
-                SELECT e.id, e.title, u.username as host_username 
+                SELECT e.id, e.title,e.results_published, u.username as host_username 
                 FROM elections e
                 JOIN users u ON e.host_id = u.id
-                WHERE e.password = %s
+                WHERE e.password = %s 
+                        
             """, (password,))
             election = cur.fetchone()
+            if(election['results_published']==1):
+                return redirect(url_for('results', election_id=election['id']))
+
             
             if election:
                 cur.execute("""
@@ -192,6 +196,7 @@ def participate():
                 if cur.fetchone():
                     flash('You have already voted in this election', 'warning')
                     return redirect(url_for('results', election_id=election['id']))
+                
                 
                 cur.execute("""
                     SELECT id, candidate_name 

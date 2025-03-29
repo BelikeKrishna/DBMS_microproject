@@ -1,6 +1,7 @@
 /* General Styling */
 body {
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #4A90E2, #9013FE);
+
     font-family: 'Arial', sans-serif;
 }
 
@@ -15,6 +16,7 @@ body {
 }
 .primary-btn:hover {
     background-color: #0056b3;
+    
 }
 
 .secondary-btn {
@@ -27,13 +29,16 @@ body {
 }
 .secondary-btn:hover {
     background-color: #5a6268;
+    
 }
 
 /* Participation Card */
 .participation-card {
-    background-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1); /* Transparent white */
+    backdrop-filter: blur(10px); /* Blurry effect */
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+    
     padding: 20px;
 }
 .participation-card .card-header {
