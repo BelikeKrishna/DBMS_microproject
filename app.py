@@ -113,25 +113,39 @@ def create_election():
         return redirect(url_for('loginpage'))
     
     if request.method == 'POST':
-        
+        user_id = session.get('user_id')
         title = request.form.get('title')
         password = request.form.get('password')
-        candidates = [
-            request.form.get('candidate1'),
-            request.form.get('candidate2'),
-            request.form.get('candidate3'),
-            request.form.get('candidate4')
-        ]
-        user_id = session.get('user_id')
-        cur = mysql.connection.cursor()
         
+        cur = mysql.connection.cursor()
         try:
+            # Check if password is already used in any active election
+            cur.execute("""
+                SELECT id FROM elections 
+                WHERE password = %s AND results_published = 0
+            """, (password,))
+            existing_election = cur.fetchone()
+            
+            if existing_election:
+                flash('This password is already in use by an active election', 'error')
+                return render_template('create_election.html')
+            
+            # Get candidate data
+            candidates = [
+                request.form.get('candidate1'),
+                request.form.get('candidate2'),
+                request.form.get('candidate3'),
+                request.form.get('candidate4')
+            ]
+            
+            # Create new election
             cur.execute("""
                 INSERT INTO elections (title, password, host_id) 
                 VALUES (%s, %s, %s)
             """, (title, password, user_id))
             election_id = cur.lastrowid
             
+            # Add candidates
             for candidate in candidates:
                 if candidate:
                     cur.execute("""
@@ -142,6 +156,7 @@ def create_election():
             mysql.connection.commit()
             flash('Election created successfully!', 'success')
             return redirect(url_for('host'))
+            
         except Exception as e:
             mysql.connection.rollback()
             flash(f'Error creating election: {str(e)}', 'error')

@@ -3,53 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <title>Login - Online Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-    <div class="cont">
-        <div class="insidecont">
-          <div class="logtext">
-            <h1>login</h1>
-          </div>
-          
-          <div class="datacontainer">
+    <div class="container">
+        <div class="login-box">
+            <h2 class="login-title">Login</h2>
+
             <form action="{{ url_for('login') }}" method="post">
-            
-            <label for="username">username</label>
-            
-            <input type="text" id="username" name="username" placeholder="enter your username" autocomplete="off">
-            
-            <label for="password">password</label>
-            <input type="password" id="password" name="password" placeholder="enter your password" autocomplete="off">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                  
-              <div class="flash-message {{ category }}">
-                {{ message }}
-              </div>
-                  
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-            <div class="btncontainer">
-                <button>LOGIN</button>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <div class="links">
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+                <p>Forgot password? <a href="#">Click here</a></p>
             </div>
-           
-            
-          </form>
-            <p>dont have an account?<a href="{{ url_for('register') }}">register</a></p>
-            <P>forgot password?<a href="#">click</a></P>
-            
-            
-          </div>
-          
-          
         </div>
-   
     </div>
-    
-  
 </body>
 </html>
