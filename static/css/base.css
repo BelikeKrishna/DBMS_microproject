@@ -9,8 +9,10 @@
 
 /* Reduce Navbar Brand Size */
 .navbar .navbar-brand {
-    font-size: 1rem; /* Smaller text */
+    font-size: 35px; /* Smaller text */
     padding: 0;
+    font-family: 'Bebas Neue',sans-serif;
+    
 }
 
 /* Reduce Navbar Link and Text Size */
