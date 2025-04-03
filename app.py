@@ -20,9 +20,9 @@ def loginpage():
 
 @app.route('/home')
 def home():
-    if not session.get('logged_in'):
+    if not session.get('logged_in'): 
         return redirect(url_for('loginpage'))
-    username = session.get('username')
+    username = session.get('username')              #gets username from the session to display in the navbar
     return render_template('index.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -33,10 +33,10 @@ def login():
         cur = mysql.connection.cursor()
         
         try:
-            cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+            cur.execute("SELECT * FROM users WHERE username = %s", (username,))  #checks whether the user with the username is present
             user = cur.fetchone()
             
-            if user and user['password'] == password:
+            if user and user['password'] == password:  #if present
                 session['logged_in'] = True
                 session['username'] = username
                 session['user_id'] = user['id']
@@ -92,7 +92,7 @@ def host():
     user_id = session.get('user_id')
     cur = mysql.connection.cursor()
     
-    try:
+    try:#selects all the election under the user_id of the user
         cur.execute("""
             SELECT id, title, password, results_published 
             FROM elections 
@@ -119,7 +119,7 @@ def create_election():
         
         cur = mysql.connection.cursor()
         try:
-            # Check if password is already used in any active election
+            #checking if the password exist
             cur.execute("""
                 SELECT id FROM elections 
                 WHERE password = %s 
@@ -138,14 +138,14 @@ def create_election():
                 request.form.get('candidate4')
             ]
             
-            # Create new election
+            # Create new election and add to elections table
             cur.execute("""
                 INSERT INTO elections (title, password, host_id) 
                 VALUES (%s, %s, %s)
             """, (title, password, user_id))
             election_id = cur.lastrowid
             
-            # Add candidates
+            # Add candidates to candidate_detail table
             for candidate in candidates:
                 if candidate:
                     cur.execute("""
@@ -174,30 +174,29 @@ def participate():
         password = request.form.get('password')
         cur = mysql.connection.cursor()
         
-        try:
+        try:#get details about the elections with the given password
             cur.execute("""
-                SELECT e.id, e.title,e.results_published, u.username as host_username 
+                SELECT e.id, e.title, e.results_published, u.username as host_username 
                 FROM elections e
                 JOIN users u ON e.host_id = u.id
                 WHERE e.password = %s 
-                        
             """, (password,))
             election = cur.fetchone()
-            if(election['results_published']==1):
-                return redirect(url_for('results', election_id=election['id']))
-
-            
-            if election:
+            #there are 3 checks to be passed for us to vote in election
+            if election:  # First check if election exists
+                if election['results_published'] == 1:  # Then check results
+                    return redirect(url_for('results', election_id=election['id']))
+                #if result published exist 
+                # check if  voted
                 cur.execute("""
                     SELECT * FROM participants 
-                    WHERE user_id = %s AND election_id = %s
+                    WHERE user_id = %s AND election_id = %s 
                 """, (session['user_id'], election['id']))
-                
+                #if already voted show
                 if cur.fetchone():
                     flash('You have already voted in this election', 'warning')
                     return redirect(url_for('results', election_id=election['id']))
-                
-                
+                # if not voted dispplay the voting page
                 cur.execute("""
                     SELECT id, candidate_name 
                     FROM candidate_details 
@@ -212,6 +211,7 @@ def participate():
                                     candidates=candidates)
             else:
                 flash('Invalid election password', 'error')
+                
         except Exception as e:
             flash(f'Error: {str(e)}', 'error')
         finally:
